@@ -19,14 +19,7 @@ public class LogInTest {
     @AfterAll
     @SneakyThrows
     static void cleanDB(){
-        var runner = new QueryRunner();
-        var conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/app", "user", "pass"
-        );
-        runner.update(conn, "DELETE FROM auth_codes");
-        runner.update(conn, "DELETE FROM cards");
-        runner.update(conn, "DELETE FROM users");
-        runner.update(conn, "DELETE FROM card_transactions");
+        Data.cleanDB();
     }
 
     @Test
@@ -48,6 +41,6 @@ public class LogInTest {
         loginPage.inValidLogin(Data.getAuthInfo());
         String expected = "blocked";
         String actual = Data.getUserStatus(Data.getAuthInfo());
-        Assertions.assertTrue(expected.equals(actual));
+        Assertions.assertEquals(expected, actual);
     }
 }

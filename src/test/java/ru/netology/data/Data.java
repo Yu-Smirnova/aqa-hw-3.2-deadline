@@ -64,4 +64,16 @@ public class Data {
         String userStatus = runner.query(conn, userIdSQL, new ScalarHandler<>(), authInfo.getLogin());
         return userStatus;
     }
+
+    @SneakyThrows
+    public static void cleanDB(){
+        var runner = new QueryRunner();
+        var conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/app_db", "user", "pass"
+        );
+        runner.update(conn, "DELETE FROM auth_codes");
+        runner.update(conn, "DELETE FROM cards");
+        runner.update(conn, "DELETE FROM users");
+        runner.update(conn, "DELETE FROM card_transactions");
+    }
 }
